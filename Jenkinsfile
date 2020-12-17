@@ -1,15 +1,6 @@
 pipeline {
          agent any
          stages {
-                 stage('Build Javascript') 
-                 {
-                   steps {
-                     script {
-                       }
-                     }
-                   }
-                 }
-                 
                  stage('Build Image') 
                  {
                       app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
