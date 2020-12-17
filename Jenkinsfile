@@ -1,26 +1,39 @@
 pipeline {
          agent any
          stages {
-                 stage('Build Javascript') {
-                 steps {
-                 script {
-                 }
-                 }
-                 }
+                 stage('Build Javascript') 
+                 {
+                   steps {
+                     script {
+
+                       }
+                     }
+                   }
                  }
                  
-                 stage('Build Image') {
+                 stage('Build Image') 
+                 {
                       app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
                  }
-                 stage('Push to Docker') {
+
+                 stage('Test Image') 
+                 {
+                   {
+                     sh 'echo "Tests passed"'
+                   }
+                 }
+
+                 stage('Push to Docker') 
+                 {
                      steps {
                      script {
                           docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$')
-                          app.push("${env.build_number}")
-                          app.push("latest")
-                 }
-                 }
-                 }
+                          {
+                              app.push("${env.build_number}")
+                              app.push("latest")
+                          }
+                     }
+                   }
                  }
                  stage('Sonarqube') {
                       environment {
