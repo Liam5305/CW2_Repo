@@ -37,8 +37,3 @@ pipeline {
                       }
                     }
                  }
-                 stage('Deploy to Kubernates') {
-
-                 }
-}
-
