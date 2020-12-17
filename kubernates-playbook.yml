@@ -1,0 +1,50 @@
+- name: A playbook to install kubernetes on virtual machine
+  hosts: localhost
+  user: ubuntu
+  become: yes
+
+  tasks:
+  - name: 1. Update APT Package Manager
+    shell:
+      cmd: sudo apt-get update && sudo apt-get install -y apt-transport-https
+
+  - name: 2. Retrieving Apt key using curl command
+    shell:
+      cmd: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+  - name: 3. Echo kubernetes link
+    shell:
+      cmd: echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+  - name: 4. Update Command
+    shell:
+      cmd: sudo apt-get update
+
+  - name: 5. Install kubectl
+    shell:
+      cmd: sudo apt-get install -y kubectl
+
+  - name: 6. Create bash Script to install Minikube
+    copy:
+      dest: "/home/ubuntu/cw2/minikube.sh"
+      content: |
+        #! /bin/bash
+        curl -Lo minikube storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        chmod a+x minikube
+        sudo mv minikube /usr/local/bin/
+
+  - name: 7. Change File permissions so that it can be executed
+    file:
+      path: ./minikube.sh
+      owner: ubuntu
+      group: ubuntu
+      mode: '777'
+
+  - name: 8. Execute Script
+    shell:
+      cmd: ./minikube.sh
+
+  - name: 9. Start Minikube
+    become: no
+    shell:
+      cmd: minikube start
