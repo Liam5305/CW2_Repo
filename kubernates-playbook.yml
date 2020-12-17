@@ -26,7 +26,7 @@
 
   - name: 6. Create bash Script to install Minikube
     copy:
-      dest: "/home/ubuntu/Desktop/GCU/Devops/devopscoursework2/minikube.sh"
+      dest: "/home/ubuntu/minikube.sh"
       content: |
         #! /bin/bash
         curl -Lo minikube storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
