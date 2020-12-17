@@ -7,7 +7,7 @@ pipeline {
                  }
                  }
                  stage('Push to Docker') {
-                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$
+                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$')
                           app.push("${env.build_number}")
                           app.push("latest")
 
