@@ -5,14 +5,26 @@ pipeline
 		{
 			stage('Build Image')
 			{
+				steps
+				{
+				script
+				{
 				app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
+				}
+				}
 			}
 			
 			stage('Test Image')
 			{
+				steps
+				{
+				script
+				{
 				app.inside
 				{
 				sh 'echo "Tests Passed"'
+				}
+				}
 				}
 			}
 			
