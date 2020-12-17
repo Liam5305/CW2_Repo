@@ -1,48 +1,50 @@
-pipeline {
-		agent any stages
+pipeline 
+	{
+		agent any
+		stages
 		{
-		stage('Build Image')
-		{
-			app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
-		}
-		
-		stage('Test Image')
-		{
-			app.inside
+			stage('Build Image')
 			{
-			sh 'echo "Tests Passed"'
-			}
-		}
-		
-		stage('Push To Docker')
-		{
-			steps 
-			{
-			script 
-			{
-				 docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$')
-				{
-				 app.push("${env.build_number}")
-					app.push("latest")
-				}
-			}
-			}
-		}
-		
-		stage('SonarQube')
-		{
-			environment 
-			{
-				scannerHome = tool 'SonarQubeScanner'
+				app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
 			}
 			
-			steps 
+			stage('Test Image')
 			{
-				withSonarQubeEnv('sonarqube') 
+				app.inside
 				{
-					sh "$[scannerHome]/bin/sonar-scanner"
+				sh 'echo "Tests Passed"'
 				}
 			}
 			
+			stage('Push To Docker')
+			{
+				steps 
+				{
+				script 
+				{
+					 docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$')
+					{
+					 app.push("${env.build_number}")
+						app.push("latest")
+					}
+				}
+				}
+			}
+			
+			stage('SonarQube')
+			{
+				environment 
+				{
+					scannerHome = tool 'SonarQubeScanner'
+				}
+				
+				steps 
+				{
+					withSonarQubeEnv('sonarqube') 
+					{
+						sh "$[scannerHome]/bin/sonar-scanner"
+					}
+				}
+			}
 		}
 	}
