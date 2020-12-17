@@ -35,14 +35,14 @@
 
   - name: 7. Change File permissions so that it can be executed
     file:
-      path: ./minikube.sh
+      path: /home/ubuntu/minikube.sh
       owner: ubuntu
       group: ubuntu
       mode: '777'
 
   - name: 8. Execute Script
     shell:
-      cmd: ./minikube.sh
+      cmd: /home/ubuntu/minikube.sh
 
   - name: 9. Start Minikube
     become: no
