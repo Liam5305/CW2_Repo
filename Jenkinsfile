@@ -1,30 +1,22 @@
-pipeline 
+pipeline
 	{
 		agent any
 		stages
-		{
+		{	
 			stage('Build Image')
 			{
 				app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
 			}
 			
-			stage('Test Image')
-			{
-				app.inside
-				{
-				sh 'echo "Tests Passed"'
-				}
-			}
-			
-			stage('Push To Docker')
+			stage('Push to Docker')
 			{
 				steps 
 				{
 				script 
 				{
+					 docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$')
 					{
-					docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-credentials')
-					app.push("${env.build_number}")
+					 app.push("${env.build_number}")
 						app.push("latest")
 					}
 				}
@@ -33,18 +25,18 @@ pipeline
 			
 			stage('SonarQube')
 			{
-				environment 
+				environment
 				{
 					scannerHome = tool 'SonarQubeScanner'
 				}
 				
-				steps 
+				steps
 				{
-					withSonarQubeEnv('SonarQube') 
+					withSonarQubeEnv('SonarQube')
 					{
 						sh "${scannerHome}bin/sonar-scanner"
 					}
 				}
-			}	
+			}
 		}
 	}
