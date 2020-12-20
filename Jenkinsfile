@@ -47,15 +47,3 @@ pipeline
 				}
 			}
 			
-			stage('Deploy to Kubernetes')
-			{
-				steps
-				{
-				script
-				{
-						sh "ssh ubuntu@3.238.251.90 kubectl set image deployments/linux_tweet_app linux_tweet_app-k2dss=liam5305/linux_tweet_app:${env.BUILD_NUMBER}"
-				}
-				}
-			}
-		}
-	}
