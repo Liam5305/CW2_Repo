@@ -20,7 +20,7 @@ pipeline
 				{
 				script 
 				{
-					 docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-credentials')
+					 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials')
 					{
 					 app.push("${env.build_number}")
 						app.push("latest")
