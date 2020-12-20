@@ -51,8 +51,8 @@ pipeline
 				{
 					script
 					{
-						sh "ssh ubuntu@3.238.251.90"
-						sh "kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=liam5305:${env.BUILD_NUMBER}"
+						sh "ssh ubuntu@3.238.251.90 \
+						   kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=liam5305:${env.BUILD_NUMBER}"
 					}
 				}
 			}
