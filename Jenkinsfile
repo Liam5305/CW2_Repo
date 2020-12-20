@@ -44,5 +44,16 @@ pipeline
 					}
 				}
 			}
+			
+			stage('Deploy to Kubernetes')
+			{
+				steps
+				{
+					script
+					{
+						ssh ubuntu@3.238.251.90
+					}
+				}
+			}
 		}
 	}
