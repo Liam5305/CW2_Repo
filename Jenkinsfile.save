@@ -1,0 +1,22 @@
+pipeline {
+         agent any
+         stages {
+                 stage('Build Server.js') {
+                 steps {
+                     
+                 }
+                 }
+                 stage('Test') {
+                 steps {
+                    
+                 }
+                 }
+                 stage('Deploy to Kubernates') {
+                 
+}
+                 steps {
+                       echo "Hello"
+                 }
+                 }
+              }
+}
