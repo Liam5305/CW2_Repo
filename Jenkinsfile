@@ -5,7 +5,13 @@ pipeline
 		{	
 			stage('Build Image')
 			{
-				app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
+				steps
+				{
+					script
+					{
+						app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
+					}
+				}
 			}
 			
 			stage('Push to Docker')
