@@ -5,26 +5,14 @@ pipeline
 		{
 			stage('Build Image')
 			{
-				steps
-				{
-				script
-				{
 				app = docker.build("liam5305/linux_tweet_app:${env.BUILD_NUMBER}")
-				}
-				}
 			}
 			
 			stage('Test Image')
 			{
-				steps
-				{
-				script
-				{
 				app.inside
 				{
 				sh 'echo "Tests Passed"'
-				}
-				}
 				}
 			}
 			
@@ -34,7 +22,7 @@ pipeline
 				{
 				script 
 				{
-					 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials')
+					 docker.withRegistry('https://registry.hub.docker.com', 'docker-hug-creden$')
 					{
 					 app.push("${env.build_number}")
 						app.push("latest")
@@ -52,10 +40,21 @@ pipeline
 				
 				steps 
 				{
-					withSonarQubeEnv('SonarQube') 
+					withSonarQubeEnv('sonarqube') 
 					{
 						sh "${scannerHome}bin/sonar-scanner"
 					}
+				}
+			}
+			
+			stage('Deploy to Kubernetes')
+			{
+				steps
+				{
+				script
+				{
+						sh "ssh ubuntu@3.238.251.90 kubectl set image deployments/linux_tweet_app linux_tweet_app-k2dss=liam5305/linux_tweet_app:${env.BUILD_NUMBER}"
+				}
 				}
 			}
 		}
